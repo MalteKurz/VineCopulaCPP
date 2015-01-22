@@ -66,6 +66,6 @@ double VineCopulaNegLL(const double *Thetas, VineCopula* Vine, double *U, int Cu
 
 void VineCopulaRand(VineCopula* Vine, double *U, unsigned int n);
 
-void VineCopulaStructureSelect(int type, double *Structure, double *Families, double *Rotations, std::vector<double>& Thetas, double *U, unsigned int d, unsigned int n, int StructuringRule, double *familyset, int m);
+void VineCopulaStructureSelect(int type, double *Structure, double *Families, double *Rotations, std::vector<double>& Thetas, double *U, int d, unsigned int n, int StructuringRule, double *familyset, int m);
 
 #endif
