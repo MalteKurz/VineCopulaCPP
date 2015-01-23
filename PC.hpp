@@ -1,5 +1,5 @@
-#ifndef _PAIRCOPULANEGLL_HPP_
-#define _PAIRCOPULANEGLL_HPP_
+#ifndef _PC_HPP_
+#define _PC_HPP_
 
 #include "VineCPP_header.hpp"
 
