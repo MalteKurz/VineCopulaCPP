@@ -333,8 +333,8 @@ void VineCopulaFit(VineCopula* Vine, double *CLL, double *x0, double *U, unsigne
     opt.set_xtol_rel(1e-5);
     
     double minf;
-    //nlopt::result result = opt.optimize(x, minf);
-    opt.optimize(x, minf);
+    nlopt::result result = opt.optimize(x, minf);
+    //opt.optimize(x, minf);
     
     //mexPrintf("result code = %i \n", opt.last_optimize_result());
     
