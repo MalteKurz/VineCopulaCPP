@@ -2,7 +2,7 @@
 
 double VineCopulaNegLL(VineCopula* Vine, double *U, int CutOffTree, unsigned int n)
 {
-    int i,j;
+    int i,j=0;
     double CLL=0;
     
     int d = Vine->Dimension;
@@ -13,7 +13,7 @@ double VineCopulaNegLL(VineCopula* Vine, double *U, int CutOffTree, unsigned int
         std::vector<double> V((d-1)*n);
         if (Vine->Rotations==NULL)
         {
-            //#pragma omp parallel for private(i) reduction(+:CLL)
+            #pragma omp parallel for private(i) reduction(+:CLL)
             for (i=0;i<d-1;i++)
             {
                 double CLL1 = PairCopulaNegLL(Vine->Families[d*j-j*(j+1)/2+i], Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], &U[0], &U[(i+1)*n], n);
@@ -23,7 +23,7 @@ double VineCopulaNegLL(VineCopula* Vine, double *U, int CutOffTree, unsigned int
             
             for (j=1;j<J;j++)
             {
-                //#pragma omp parallel for private(i) reduction(+:CLL)
+                #pragma omp parallel for private(i) reduction(+:CLL)
                 for (i=d-j-2;i>=0;i--)
                 {
                     double CLL1 = PairCopulaNegLL(Vine->Families[d*j-j*(j+1)/2+i], Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], &V[(j-1)*n], &V[(j+i)*n], n);
@@ -37,7 +37,7 @@ double VineCopulaNegLL(VineCopula* Vine, double *U, int CutOffTree, unsigned int
         }
         else
         {
-            //#pragma omp parallel for private(i) reduction(+:CLL)
+            #pragma omp parallel for private(i) reduction(+:CLL)
             for (i=0;i<d-1;i++)
             {
                 if (Vine->Rotations[d*j-j*(j+1)/2+i]>0)
@@ -61,7 +61,7 @@ double VineCopulaNegLL(VineCopula* Vine, double *U, int CutOffTree, unsigned int
             
             for (j=1;j<J;j++)
             {
-                //#pragma omp parallel for private(i) reduction(+:CLL)
+                #pragma omp parallel for private(i) reduction(+:CLL)
                 for (i=d-j-2;i>=0;i--)
                 {
                     if (Vine->Rotations[d*j-j*(j+1)/2+i]>0)
@@ -105,7 +105,7 @@ double VineCopulaNegLL(VineCopula* Vine, double *U, int CutOffTree, unsigned int
         std::vector<double> H((d-2)*n);
         if (Vine->Rotations==NULL)
         {
-            //#pragma omp parallel for private(i) reduction(+:CLL)
+            #pragma omp parallel for private(i) reduction(+:CLL)
             for (i=0;i<d-1;i++)
             {
                 double CLL1 = PairCopulaNegLL(Vine->Families[d*j-j*(j+1)/2+i], Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], &U[i*n], &U[(i+1)*n], n);
@@ -120,7 +120,7 @@ double VineCopulaNegLL(VineCopula* Vine, double *U, int CutOffTree, unsigned int
             
             for (j=1;j<J;j++)
             {
-                //#pragma omp parallel for private(i) reduction(+:CLL)
+                #pragma omp parallel for private(i) reduction(+:CLL)
                 for (i=0;i<d-j-1;i++)
                 {
                     double CLL1 = PairCopulaNegLL(Vine->Families[d*j-j*(j+1)/2+i], Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], &H[i*n], &V[i*n], n);
@@ -139,7 +139,7 @@ double VineCopulaNegLL(VineCopula* Vine, double *U, int CutOffTree, unsigned int
         }
         else
         {
-            //#pragma omp parallel for private(i) reduction(+:CLL)
+            #pragma omp parallel for private(i) reduction(+:CLL)
             for (i=0;i<d-1;i++)
             {
                 if (Vine->Rotations[d*j-j*(j+1)/2+i]>0)
@@ -173,7 +173,7 @@ double VineCopulaNegLL(VineCopula* Vine, double *U, int CutOffTree, unsigned int
             
             for (j=1;j<J;j++)
             {
-                //#pragma omp parallel for private(i) reduction(+:CLL)
+                #pragma omp parallel for private(i) reduction(+:CLL)
                 for (i=0;i<d-j-1;i++)
                 {
                     if (Vine->Rotations[d*j-j*(j+1)/2+i]>0)
@@ -228,7 +228,7 @@ double VineCopulaNegLL(VineCopula* Vine, double *U, int CutOffTree, unsigned int
 
 double VineCopulaNegLL(const double *Thetas,VineCopula* Vine, double *U, int CutOffTree, unsigned int n)
 {
-    int i,j;
+    int i,j=0;
     double CLL=0;
     
     int d = Vine->Dimension;
@@ -239,7 +239,7 @@ double VineCopulaNegLL(const double *Thetas,VineCopula* Vine, double *U, int Cut
         std::vector<double> V((d-1)*n);
         if (Vine->Rotations==NULL)
         {
-            //#pragma omp parallel for private(i) reduction(+:CLL)
+            #pragma omp parallel for private(i) reduction(+:CLL)
             for (i=0;i<d-1;i++)
             {
                 double CLL1 = PairCopulaNegLL(Vine->Families[d*j-j*(j+1)/2+i], Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], &U[0], &U[(i+1)*n], n);
@@ -249,7 +249,7 @@ double VineCopulaNegLL(const double *Thetas,VineCopula* Vine, double *U, int Cut
             
             for (j=1;j<J;j++)
             {
-                //#pragma omp parallel for private(i) reduction(+:CLL)
+                #pragma omp parallel for private(i) reduction(+:CLL)
                 for (i=d-j-2;i>=0;i--)
                 {
                     double CLL1 = PairCopulaNegLL(Vine->Families[d*j-j*(j+1)/2+i], Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], &V[(j-1)*n], &V[(j+i)*n], n);
@@ -263,7 +263,7 @@ double VineCopulaNegLL(const double *Thetas,VineCopula* Vine, double *U, int Cut
         }
         else
         {
-            //#pragma omp parallel for private(i) reduction(+:CLL)
+            #pragma omp parallel for private(i) reduction(+:CLL)
             for (i=0;i<d-1;i++)
             {
                 if (Vine->Rotations[d*j-j*(j+1)/2+i]>0)
@@ -287,7 +287,7 @@ double VineCopulaNegLL(const double *Thetas,VineCopula* Vine, double *U, int Cut
             
             for (j=1;j<J;j++)
             {
-                //#pragma omp parallel for private(i) reduction(+:CLL)
+                #pragma omp parallel for private(i) reduction(+:CLL)
                 for (i=d-j-2;i>=0;i--)
                 {
                     if (Vine->Rotations[d*j-j*(j+1)/2+i]>0)
@@ -331,7 +331,7 @@ double VineCopulaNegLL(const double *Thetas,VineCopula* Vine, double *U, int Cut
         std::vector<double> H((d-2)*n);
         if (Vine->Rotations==NULL)
         {
-            //#pragma omp parallel for private(i) reduction(+:CLL)
+            #pragma omp parallel for private(i) reduction(+:CLL)
             for (i=0;i<d-1;i++)
             {
                 double CLL1 = PairCopulaNegLL(Vine->Families[d*j-j*(j+1)/2+i], Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], &U[i*n], &U[(i+1)*n], n);
@@ -346,7 +346,7 @@ double VineCopulaNegLL(const double *Thetas,VineCopula* Vine, double *U, int Cut
             
             for (j=1;j<J;j++)
             {
-                //#pragma omp parallel for private(i) reduction(+:CLL)
+                #pragma omp parallel for private(i) reduction(+:CLL)
                 for (i=0;i<d-j-1;i++)
                 {
                     double CLL1 = PairCopulaNegLL(Vine->Families[d*j-j*(j+1)/2+i], Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], &H[i*n], &V[i*n], n);
@@ -365,7 +365,7 @@ double VineCopulaNegLL(const double *Thetas,VineCopula* Vine, double *U, int Cut
         }
         else
         {
-            //#pragma omp parallel for private(i) reduction(+:CLL)
+            #pragma omp parallel for private(i) reduction(+:CLL)
             for (i=0;i<d-1;i++)
             {
                 if (Vine->Rotations[d*j-j*(j+1)/2+i]>0)
@@ -399,7 +399,7 @@ double VineCopulaNegLL(const double *Thetas,VineCopula* Vine, double *U, int Cut
             
             for (j=1;j<J;j++)
             {
-                //#pragma omp parallel for private(i) reduction(+:CLL)
+                #pragma omp parallel for private(i) reduction(+:CLL)
                 for (i=0;i<d-j-1;i++)
                 {
                     if (Vine->Rotations[d*j-j*(j+1)/2+i]>0)
