@@ -156,7 +156,7 @@ void PairCopulaVfun(int family, const double *theta, double *U, double *V, doubl
                 UU = CheckBounds(U[i]);
                 VV = CheckBounds(V[i]);
                 
-                uu = *theta*UU*(3*UU-2)*pow(VV,3)+pow(VV,2)**theta*(1-2*UU)+1;
+                uu = VV*(1+*theta*VV*(1-VV)*(3*pow(UU,2)-4*UU+1));
                 *(u+i) = CheckBounds(uu);
             }
             break;
