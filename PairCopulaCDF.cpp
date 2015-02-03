@@ -209,7 +209,7 @@ void PairCopulaCDF(int family, const double *theta, double *U, double *V, double
                 
                 huv = UU*VV;
                 
-                p[i] = huv + *theta*huv*(1-huv);
+                p[i] = huv + *theta*huv*(1-UU-VV+huv);
             }
             break;
         }
