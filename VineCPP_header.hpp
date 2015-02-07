@@ -2,6 +2,11 @@
 #define _VINECPP_HEADER_HPP_
 
 // headers
+
+#ifndef DBL_MAX
+#define DBL_MAX 1.79769e+308
+#endif
+
 #include <iostream>
 #include <string>
 #define _USE_MATH_DEFINES
