@@ -9,7 +9,7 @@ CPP_SRC_FILES := $(filter-out SetSeed.cpp, $(CPP_SRC_FILES))
 DOT_O_FILES := $(patsubst %.cpp,%.o,$(CPP_SRC_FILES))
 
 
-all: bounds.txt PathToBoundsAndSeed.hpp SetSeed genz libVineCPP.so.1.0
+all: bounds.txt PathToBoundsAndSeed.hpp SetSeed genz libVineCPP.so.1.0 LinkLib
 
 bounds.txt:
 	cp bounds_default.txt bounds.txt
@@ -33,6 +33,13 @@ mvtdstpack.f:
 
 libVineCPP.so.1.0: ${DOT_O_FILES} mvtdstpack.o
 	${CC} -shared -Wl,-soname,libVineCPP.so.1 -o $@ mvtdstpack.o ${DOT_O_FILES}
+
+LinkLib: /usr/lib/libVineCPP.so
+
+/usr/lib/libVineCPP.so:
+	cp libVineCPP.so.1.0 /usr/lib
+	ln -sf /usr/lib/libVineCPP.so.1.0 /usr/lib/libVineCPP.so.1
+	ln -sf /usr/lib/libVineCPP.so.1.0 /usr/lib/libVineCPP.so
 
 clean:
 	rm *.o && rm libVineCPP.so.1.0 && rm SetSeed && rm PathToBoundsAndSeed.hpp
