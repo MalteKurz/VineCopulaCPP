@@ -8,7 +8,7 @@ bool UV_sorter(std::pair<double, double> const& lhs, std::pair<double, double> c
 }
 
 // Helper function: Sort two vectors; primarily with respect to the first and secondarily with respect to the second
-void SortUV(std::pair<double, double> UV[], double *U, double *V,unsigned int n)
+void SortUV(std::vector<std::pair<double, double> > UV, double *U, double *V,unsigned int n)
 {
     unsigned int i;
     
@@ -163,7 +163,7 @@ AVL_Node* AVL_insert(AVL_Node* Node, double V, unsigned int *NumbBefore, unsigne
     return Node;
 }
 
-void AVL_Tree (std::pair<double, double> UV[], unsigned int *NumbBefore, unsigned int *NumbEqual, unsigned int n)
+void AVL_Tree (std::vector<std::pair<double, double> > UV, unsigned int *NumbBefore, unsigned int *NumbEqual, unsigned int n)
 {
     unsigned int i;
     AVL_Node *AVL_Root_Node = NULL;
@@ -203,7 +203,7 @@ double SD_Kendall_Tau(double *U, double *V, unsigned int n)
     unsigned int NBefore[n-1], NEqual[n-1];
     NumbBefore = &NBefore[0];
     NumbEqual = &NEqual[0];
-    std::pair<double, double> UV[ n ];
+    std::vector<std::pair<double, double> > UV(n);
     
     SortUV(UV,U,V,n);
     AVL_Tree(UV,NumbBefore,NumbEqual,n);

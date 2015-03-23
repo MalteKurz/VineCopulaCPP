@@ -409,7 +409,7 @@ void VineCopulaStructureSelect(int type, double *Structure, double *Families, do
                             
                         }
                     }
-                    std::pair<int, int> R[d-1];
+                    std::vector<std::pair<int, int> > R(d-1);
                     std::vector<int> Ranks(d-1);
                     
                     for (k=0;k<d-1;k++)
