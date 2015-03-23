@@ -123,8 +123,8 @@ double PairCopulaNegLL(int family, const double *theta, double *U, double *V, un
                     CLL -= h6*(log(h11)+log(h12))+h7*(log(UU)+log(VV))+log(h2*pow(hhuv,h3)*pow(huv,h5)+(h10*pow(hhuv,h8)*pow(huv,h9)));
                 }
             }
-            if (isinf(CLL)) CLL=log(DBL_MAX);
-            if (isnan(CLL)) CLL=log(DBL_MAX);
+            if (std::isinf(CLL)) CLL=log(DBL_MAX);
+            if (std::isnan(CLL)) CLL=log(DBL_MAX);
             break;
         }
         case 4:
@@ -161,8 +161,8 @@ double PairCopulaNegLL(int family, const double *theta, double *U, double *V, un
                 //#pragma omp atomic
                 CLL -= h1*(log(u1)+log(v1))-log(ut)-log(vt)+h2*(log(hu)+log(hv))+h4*log(huv)-hhuv+h5*log(hhhuv)+log(h1*hhuv*ehhuv/hhhuv+theta[0]*hhuv+h6);
             }
-            if (isinf(CLL)) CLL=log(DBL_MAX);
-            if (isnan(CLL)) CLL=log(DBL_MAX);
+            if (std::isinf(CLL)) CLL=log(DBL_MAX);
+            if (std::isnan(CLL)) CLL=log(DBL_MAX);
             break;
         }
         case 5:
@@ -193,8 +193,8 @@ double PairCopulaNegLL(int family, const double *theta, double *U, double *V, un
                 //#pragma omp atomic
                 CLL -= h7*log(1-pow(hu,theta[0]))+h1*log(hu)+h7*log(1-pow(hv,theta[0]))+h1*log(hv)+h3*log(1-pow(huv,-h6))+h5*log(huv)+log(h1+h2*(pow(huv,h6)-1));
             }
-            if (isinf(CLL)) CLL=log(DBL_MAX);
-            if (isnan(CLL)) CLL=log(DBL_MAX);
+            if (std::isinf(CLL)) CLL=log(DBL_MAX);
+            if (std::isnan(CLL)) CLL=log(DBL_MAX);
             break;
         }
         case 6:
@@ -234,8 +234,8 @@ double PairCopulaNegLL(int family, const double *theta, double *U, double *V, un
                     CLL -= log(hu*hv*pow(1-h3*(1-hu)*(1-hv),h4)*(h5-huv)/((theta[1]*UU-1)*(theta[1]*VV-1))/(pow(h2+huv,2)));
                 }
                 CLL -= n*log(theta[1]);
-                if (isinf(CLL)) CLL=log(DBL_MAX);
-                if (isnan(CLL)) CLL=log(DBL_MAX);
+                if (std::isinf(CLL)) CLL=log(DBL_MAX);
+                if (std::isnan(CLL)) CLL=log(DBL_MAX);
             }
             break;
         }
