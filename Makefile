@@ -42,4 +42,4 @@ LinkLib: /usr/lib/libVineCPP.so
 	ln -sf /usr/lib/libVineCPP.so.1.0 /usr/lib/libVineCPP.so
 
 clean:
-	rm *.o && rm libVineCPP.so.1.0 && rm SetSeed && rm PathToBoundsAndSeed.hpp
+	rm *.o&& rm SetSeed && rm PathToBoundsAndSeed.hpp && rm /usr/lib/libVineCPP.so.1.0 && rm /usr/lib/libVineCPP.so.1 && rm /usr/lib/libVineCPP.so
