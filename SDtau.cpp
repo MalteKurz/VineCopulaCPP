@@ -8,7 +8,7 @@ bool UV_sorter(std::pair<double, double> const& lhs, std::pair<double, double> c
 }
 
 // Helper function: Sort two vectors; primarily with respect to the first and secondarily with respect to the second
-void SortUV(std::vector<std::pair<double, double> > UV, double *U, double *V,unsigned int n)
+void SortUV(std::vector<std::pair<double, double> > &UV, double *U, double *V,unsigned int n)
 {
     unsigned int i;
     
