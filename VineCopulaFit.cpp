@@ -1,4 +1,4 @@
-#include "VineCPP_header.hpp"
+#include "VineCopulaCPP_header.hpp"
 
 void VineCopulaFitSeq(VineCopula* Vine, double *CLL, double *U, unsigned int n)
 {

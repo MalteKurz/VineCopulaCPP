@@ -1,4 +1,4 @@
-#include "VineCPP_header.hpp"
+#include "VineCopulaCPP_header.hpp"
 
 int main(){
   boost::mt19937 gen;

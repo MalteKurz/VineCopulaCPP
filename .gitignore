@@ -13,8 +13,8 @@ SetSeed
 # Seed.dat
 Seed.dat
 
-# PathToBoundsAndSeed.hpp
-PathToBoundsAndSeed.hpp
+# VineCopulaCPP_PathToBoundsAndSeed.hpp
+VineCopulaCPP_PathToBoundsAndSeed.hpp
 
 # bounds.txt
 bounds.txt

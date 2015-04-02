@@ -1,7 +1,7 @@
 #ifndef _PC_HPP_
 #define _PC_HPP_
 
-#include "VineCPP_header.hpp"
+#include "VineCopulaCPP_header.hpp"
 
 void LoadBounds(double *bounds);
 

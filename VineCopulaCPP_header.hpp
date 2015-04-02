@@ -1,5 +1,5 @@
-#ifndef _VINECPP_HEADER_HPP_
-#define _VINECPP_HEADER_HPP_
+#ifndef _VINECOPULACPP_HEADER_HPP_
+#define _VINECOPULACPP_HEADER_HPP_
 
 // headers
 #include <iostream>
@@ -34,9 +34,9 @@
 #endif
 
 // User written headers
-#include "VineCPP_helper.hpp"
+#include "VineCopulaCPP_helper.hpp"
 #include "PC.hpp"
-#include "PathToBoundsAndSeed.hpp"
+#include "VineCopulaCPP_PathToBoundsAndSeed.hpp"
 
 
 #endif

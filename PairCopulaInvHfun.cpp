@@ -1,4 +1,4 @@
-#include "VineCPP_header.hpp"
+#include "VineCopulaCPP_header.hpp"
 
 void PairCopulaInvHfun_Rotated_Obs(int family, int rotation, const double *theta, double *U, double *V, double *u, unsigned int n)
 {  
@@ -274,8 +274,8 @@ double PairCopulaVfun(int family, const double theta0, const double theta1, cons
 template <class T, class Policy>
         struct invhfun_bi
 {
-    invhfun_bi(T _family, T _theta, T _U, T _V)
-    : family(_family), theta(_theta), U(_U), V(_V) {}
+    invhfun_bi(T familyIN, T _theta, T UIN, T VIN)
+    : family(familyIN), theta(_theta), U(UIN), V(VIN) {}
     
     T operator()(const T& x)
 	{
@@ -288,22 +288,22 @@ template <class T, class Policy>
 template <class T, class Policy>
         struct invhfun_bi2
 {
-    invhfun_bi2(T _family, T _theta0, T _theta1, T _U, T _V)
-    : family(_family), theta0(_theta0), theta1(_theta1), U(_U), V(_V) {}
+    invhfun_bi2(T familyIN, T theta0IN, T theta1IN, T UIN, T VIN)
+    : family(familyIN), theta0(theta0IN), theta1(theta1IN), U(UIN), V(VIN) {}
     
     T operator()(const T& x)
 	{
         return PairCopulaHfun(family,theta0,theta1,x,V) - U;
     }
         private:
-            T family, theta0, theta1, theta2, U, V;
+            T family, theta0, theta1, U, V;
 };
 // Three Parameters
 template <class T, class Policy>
         struct invhfun_bi3
 {
-    invhfun_bi3(T _family, T _theta0, T _theta1, T _theta2, T _U, T _V)
-    : family(_family), theta0(_theta0), theta1(_theta1), theta2(_theta2), U(_U), V(_V) {}
+    invhfun_bi3(T familyIN, T theta0IN, T theta1IN, T theta2IN, T UIN, T VIN)
+    : family(familyIN), theta0(theta0IN), theta1(theta1IN), theta2(theta2IN), U(UIN), V(VIN) {}
     
     T operator()(const T& x)
 	{
@@ -317,8 +317,8 @@ template <class T, class Policy>
 template <class T, class Policy>
         struct invvfun_bi
 {
-    invvfun_bi(T _family, T _theta, T _U, T _V)
-    : family(_family), theta(_theta), U(_U), V(_V) {}
+    invvfun_bi(T familyIN, T _theta, T UIN, T VIN)
+    : family(familyIN), theta(_theta), U(UIN), V(VIN) {}
     
     T operator()(const T& x)
 	{
@@ -331,22 +331,22 @@ template <class T, class Policy>
 template <class T, class Policy>
         struct invvfun_bi2
 {
-    invvfun_bi2(T _family, T _theta0, T _theta1, T _U, T _V)
-    : family(_family), theta0(_theta0), theta1(_theta1), U(_U), V(_V) {}
+    invvfun_bi2(T familyIN, T theta0IN, T theta1IN, T UIN, T VIN)
+    : family(familyIN), theta0(theta0IN), theta1(theta1IN), U(UIN), V(VIN) {}
     
     T operator()(const T& x)
 	{
         return PairCopulaVfun(family,theta0,theta1,U,x) - V;
     }
         private:
-            T family, theta0, theta1, theta2, U, V;
+            T family, theta0, theta1, U, V;
 };
 // Three Parameters
 template <class T, class Policy>
         struct invvfun_bi3
 {
-    invvfun_bi3(T _family, T _theta0, T _theta1, T _theta2, T _U, T _V)
-    : family(_family), theta0(_theta0), theta1(_theta1), theta2(_theta2), U(_U), V(_V) {}
+    invvfun_bi3(T familyIN, T theta0IN, T theta1IN, T theta2IN, T UIN, T VIN)
+    : family(familyIN), theta0(theta0IN), theta1(theta1IN), theta2(theta2IN), U(UIN), V(VIN) {}
     
     T operator()(const T& x)
 	{

@@ -1,4 +1,4 @@
-#include "VineCPP_header.hpp"
+#include "VineCopulaCPP_header.hpp"
 
 bool PairCopulaIndepTest(double *U,double *V,unsigned int n, double *tau)
 {

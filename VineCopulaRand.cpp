@@ -1,4 +1,4 @@
-#include "VineCPP_header.hpp"
+#include "VineCopulaCPP_header.hpp"
 
 void VineCopulaRand(VineCopula* Vine, double *U, unsigned int n)
 {

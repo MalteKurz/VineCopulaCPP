@@ -1,4 +1,4 @@
-#include "VineCPP_header.hpp"
+#include "VineCopulaCPP_header.hpp"
 
 // Helper function: Compare two pairs of doubles
 bool UV_sorter(std::pair<double, double> const& lhs, std::pair<double, double> const& rhs) {

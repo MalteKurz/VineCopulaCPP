@@ -1,4 +1,4 @@
-#include "VineCPP_header.hpp"
+#include "VineCopulaCPP_header.hpp"
 
 void VineCopulaGetPseudoObs(VineCopula* Vine, double *U, double *V, unsigned int n)
 {

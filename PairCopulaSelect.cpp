@@ -1,4 +1,4 @@
-#include "VineCPP_header.hpp"
+#include "VineCopulaCPP_header.hpp"
 
 void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, double *V, unsigned int n, double *familyset, int m)
 {

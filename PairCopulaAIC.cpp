@@ -1,4 +1,4 @@
-#include "VineCPP_header.hpp"
+#include "VineCopulaCPP_header.hpp"
 
 void PairCopulaAIC_Rotated_Obs(double *AIC, double *theta,int family, int rotation, double *U,double *V,unsigned int n)
 {

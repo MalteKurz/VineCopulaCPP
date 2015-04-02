@@ -1,4 +1,4 @@
-#include "VineCPP_header.hpp"
+#include "VineCopulaCPP_header.hpp"
 
 #define LowerBoundUnitInterval  1e-10
 #define UpperBoundUnitInterval  1-1e-10

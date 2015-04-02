@@ -1,4 +1,4 @@
-#include "VineCPP_header.hpp"
+#include "VineCopulaCPP_header.hpp"
 
 int UpdateStructure(std::vector<int>& structure, int StructuringRule, double *U, int d, int d1, unsigned int n)
 {

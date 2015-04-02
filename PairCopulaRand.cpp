@@ -1,4 +1,4 @@
-#include "VineCPP_header.hpp"
+#include "VineCopulaCPP_header.hpp"
 void PairCopulaRand(int family, int rotation, const double *theta, double *U, double *V, unsigned int n)
 {     
     unsigned int i;
