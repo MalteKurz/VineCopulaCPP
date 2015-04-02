@@ -78,6 +78,7 @@ install: $(OperatingSystem)Install
 	cp VineCopulaCPP_header.hpp $(includedir)/
 	cp VineCopulaCPP_helper.hpp $(includedir)/
 	cp VineCopulaCPP_PathToBoundsAndSeed.hpp $(includedir)/
+	rm VineCopulaCPP_PC.hpp $(includedir)/
 
 LinuxInstall:
 	cp libVineCopulaCPP.so.1.0 $(libdir)/
