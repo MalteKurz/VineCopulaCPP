@@ -102,6 +102,7 @@ uninstall: $(OperatingSystem)Unistall
 	rm $(includedir)/VineCopulaCPP_header.hpp
 	rm $(includedir)/VineCopulaCPP_helper.hpp
 	rm $(includedir)/VineCopulaCPP_PathToBoundsAndSeed.hpp
+	rm $(includedir)/VineCopulaCPP_PC.hpp
 
 LinuxUnistall:
 	rm $(libdir)/libVineCopulaCPP.so.1.0
