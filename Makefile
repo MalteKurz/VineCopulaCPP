@@ -101,17 +101,17 @@ WindowsClean:
 	rm libVineCopulaCPP.dll.a
 	rm libVineCopulaCPP.dll
 
-uninstall: $(OperatingSystem)Unistall
+uninstall: $(OperatingSystem)Uninstall
 	rm $(includedir)/VineCopulaCPP_header.hpp
 	rm $(includedir)/VineCopulaCPP_helper.hpp
 	rm $(includedir)/VineCopulaCPP_PathToBoundsAndSeed.hpp
 	rm $(includedir)/VineCopulaCPP_PC.hpp
 
-LinuxUnistall:
+LinuxUninstall:
 	rm $(libdir)/libVineCopulaCPP.so.1.0
 	rm $(libdir)/libVineCopulaCPP.so.1
 	rm $(libdir)/libVineCopulaCPP.so
 
-WindowsUnistall:
+WindowsUninstall:
 	rm $(libdir)/libVineCopulaCPP.dll
 
