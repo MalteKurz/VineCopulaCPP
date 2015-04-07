@@ -90,14 +90,16 @@ WindowsInstall:
 
 clean: $(OperatingSystem)Clean
 	rm *.o
-	rm libVineCopulaCPP.so.1.0
 	rm VineCopulaCPP_PathToBoundsAndSeed.hpp
 
 LinuxClean:
 	rm SetSeed
+	rm libVineCopulaCPP.so.1.0
 
 WindowsClean:
 	rm SetSeed.exe
+	rm libVineCopulaCPP.dll.a
+	rm libVineCopulaCPP.dll
 
 uninstall: $(OperatingSystem)Unistall
 	rm $(includedir)/VineCopulaCPP_header.hpp
