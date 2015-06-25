@@ -1,6 +1,14 @@
-#include "VineCopulaCPP_header.hpp"
+ #include "VineCopulaCPP_header.hpp"
 
 void VineCopulaFitSeq(VineCopula* Vine, double *CLL, double *U, unsigned int n)
+{
+    std::vector<double> bounds(120);
+    LoadDefaultBounds(&bounds[0]);
+    VineCopulaFitSeq(&bounds[0],Vine,CLL,U,n);
+    
+    return;
+}
+void VineCopulaFitSeq(double *bounds,VineCopula* Vine, double *CLL, double *U, unsigned int n)
 {
     int i,j=0;
     
@@ -14,7 +22,7 @@ void VineCopulaFitSeq(VineCopula* Vine, double *CLL, double *U, unsigned int n)
             #pragma omp parallel for private(i)
             for (i=0;i<d-1;i++)
             {
-                PairCopulaFit(Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &U[0], &U[(i+1)*n], n);
+                PairCopulaFit(bounds,Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &U[0], &U[(i+1)*n], n);
             }
             for (i=0;i<d-1;i++)
             {
@@ -26,7 +34,7 @@ void VineCopulaFitSeq(VineCopula* Vine, double *CLL, double *U, unsigned int n)
                 #pragma omp parallel for private(i)
                 for (i=d-j-2;i>=0;i--)
                 {
-                    PairCopulaFit(Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &V[(j-1)*n], &V[(j+i)*n], n);
+                    PairCopulaFit(bounds,Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &V[(j-1)*n], &V[(j+i)*n], n);
                 }
                 for (i=d-j-2;i>=0;i--)
                 {
@@ -50,7 +58,7 @@ void VineCopulaFitSeq(VineCopula* Vine, double *CLL, double *U, unsigned int n)
                 }
                 else
                 {
-                    PairCopulaFit(Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &U[0], &U[(i+1)*n], n);
+                    PairCopulaFit(bounds,Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &U[0], &U[(i+1)*n], n);
                 }
             }
             for (i=0;i<d-1;i++)
@@ -86,7 +94,7 @@ void VineCopulaFitSeq(VineCopula* Vine, double *CLL, double *U, unsigned int n)
                     }
                     else
                     {
-                        PairCopulaFit(Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &V[(j-1)*n], &V[(j+i)*n], n);
+                        PairCopulaFit(bounds,Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &V[(j-1)*n], &V[(j+i)*n], n);
                     }
                 }
                 for (i=d-j-2;i>=0;i--)
@@ -117,7 +125,7 @@ void VineCopulaFitSeq(VineCopula* Vine, double *CLL, double *U, unsigned int n)
             #pragma omp parallel for private(i)
             for (i=0;i<d-1;i++)
             {
-                PairCopulaFit(Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &U[i*n], &U[(i+1)*n], n);
+                PairCopulaFit(bounds,Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &U[i*n], &U[(i+1)*n], n);
             }
             for (i=0;i<d-1;i++)
             {
@@ -134,7 +142,7 @@ void VineCopulaFitSeq(VineCopula* Vine, double *CLL, double *U, unsigned int n)
                 #pragma omp parallel for private(i)
                 for (i=0;i<d-j-1;i++)
                 {
-                    PairCopulaFit(Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &H[i*n], &V[i*n], n);
+                    PairCopulaFit(bounds,Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &H[i*n], &V[i*n], n);
                 }
                 for (i=0;i<d-j-1;i++)
                 {
@@ -163,7 +171,7 @@ void VineCopulaFitSeq(VineCopula* Vine, double *CLL, double *U, unsigned int n)
                 }
                 else
                 {
-                    PairCopulaFit(Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &U[i*n], &U[(i+1)*n], n);
+                    PairCopulaFit(bounds,Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &U[i*n], &U[(i+1)*n], n);
                 }
             }
             for (i=0;i<d-1;i++)
@@ -209,7 +217,7 @@ void VineCopulaFitSeq(VineCopula* Vine, double *CLL, double *U, unsigned int n)
                     }
                     else
                     {
-                        PairCopulaFit(Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &H[i*n], &V[i*n], n);
+                        PairCopulaFit(bounds,Vine->Thetas+Vine->NumbParams[d*j-j*(j+1)/2+i], Vine->Families[d*j-j*(j+1)/2+i], &H[i*n], &V[i*n], n);
                     }
                 }
                 for (i=0;i<d-j-1;i++)
@@ -261,10 +269,16 @@ double ObjectiveFunctionVine(unsigned n, const double *x, double *grad, void *da
 
 void VineCopulaFit(VineCopula* Vine, double *CLL, double *x0, double *U, unsigned int n)
 {
-    VineCopulaFitSeq(Vine,&CLL[0],U,n);
-    
     std::vector<double> bounds(120);
-    LoadBounds(&bounds[0]);
+    LoadDefaultBounds(&bounds[0]);
+    VineCopulaFit(&bounds[0],Vine,CLL,x0,U,n);
+    
+    return;
+}
+    
+void VineCopulaFit(double *bounds,VineCopula* Vine, double *CLL, double *x0, double *U, unsigned int n)
+{
+    VineCopulaFitSeq(bounds,Vine,&CLL[0],U,n);
     
     nlopt::opt opt;
     
@@ -286,12 +300,12 @@ void VineCopulaFit(VineCopula* Vine, double *CLL, double *x0, double *U, unsigne
             }
             case 3:
             {
-                lb[Vine->NumbParams[i]] = bounds[Vine->Families[i]*6];
-                lb[Vine->NumbParams[i]+1] = bounds[Vine->Families[i]*6+2];
-                lb[Vine->NumbParams[i]+2] = bounds[Vine->Families[i]*6+4];
-                ub[Vine->NumbParams[i]] = bounds[Vine->Families[i]*6+1];
-                ub[Vine->NumbParams[i]+1] = bounds[Vine->Families[i]*6+3];
-                ub[Vine->NumbParams[i]+2] = bounds[Vine->Families[i]*6+5];
+                lb[Vine->NumbParams[i]] = bounds[(int) Vine->Families[i]*6];
+                lb[Vine->NumbParams[i]+1] = bounds[(int) Vine->Families[i]*6+2];
+                lb[Vine->NumbParams[i]+2] = bounds[(int) Vine->Families[i]*6+4];
+                ub[Vine->NumbParams[i]] = bounds[(int) Vine->Families[i]*6+1];
+                ub[Vine->NumbParams[i]+1] = bounds[(int) Vine->Families[i]*6+3];
+                ub[Vine->NumbParams[i]+2] = bounds[(int) Vine->Families[i]*6+5];
                 x[Vine->NumbParams[i]] = *(Vine->Thetas+Vine->NumbParams[i]);
                 x0[Vine->NumbParams[i]] = x[Vine->NumbParams[i]];
                 x[Vine->NumbParams[i]+1] = *(Vine->Thetas+Vine->NumbParams[i]+1);
@@ -302,10 +316,10 @@ void VineCopulaFit(VineCopula* Vine, double *CLL, double *x0, double *U, unsigne
             }
             case 2:
             {
-                lb[Vine->NumbParams[i]] = bounds[Vine->Families[i]*6];
-                lb[Vine->NumbParams[i]+1] = bounds[Vine->Families[i]*6+2];
-                ub[Vine->NumbParams[i]] = bounds[Vine->Families[i]*6+1];
-                ub[Vine->NumbParams[i]+1] = bounds[Vine->Families[i]*6+3];
+                lb[Vine->NumbParams[i]] = bounds[(int) Vine->Families[i]*6];
+                lb[Vine->NumbParams[i]+1] = bounds[(int) Vine->Families[i]*6+2];
+                ub[Vine->NumbParams[i]] = bounds[(int) Vine->Families[i]*6+1];
+                ub[Vine->NumbParams[i]+1] = bounds[(int) Vine->Families[i]*6+3];
                 x[Vine->NumbParams[i]] = *(Vine->Thetas+Vine->NumbParams[i]);
                 x0[Vine->NumbParams[i]] = x[Vine->NumbParams[i]];
                 x[Vine->NumbParams[i]+1] = *(Vine->Thetas+Vine->NumbParams[i]+1);
@@ -314,8 +328,8 @@ void VineCopulaFit(VineCopula* Vine, double *CLL, double *x0, double *U, unsigne
             }
             default:
             {
-                lb[Vine->NumbParams[i]] = bounds[Vine->Families[i]*6];
-                ub[Vine->NumbParams[i]] = bounds[Vine->Families[i]*6+1];
+                lb[Vine->NumbParams[i]] = bounds[(int) Vine->Families[i]*6];
+                ub[Vine->NumbParams[i]] = bounds[(int) Vine->Families[i]*6+1];
                 x[Vine->NumbParams[i]] = *(Vine->Thetas+Vine->NumbParams[i]);
                 x0[Vine->NumbParams[i]] = x[Vine->NumbParams[i]];
             }

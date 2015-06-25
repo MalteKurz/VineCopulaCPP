@@ -1,13 +1,62 @@
 #include "VineCopulaCPP_header.hpp"
+
 void PairCopulaRand(int family, int rotation, const double *theta, double *U, double *V, unsigned int n)
 {     
+    // If the function is called without any seed, a random seed (using the current system time) is generated
+    unsigned int i;
+    boost::mt19937 gen;
+    gen.seed(time(0));
+    std::stringstream RNG_State;
+    RNG_State << gen;
+    
+    std::vector<unsigned int> SeedState(624);
+    double state;
+    
+    for (i=0;i<624;i++)
+    {
+        RNG_State >> state;
+        SeedState[i] = (unsigned int) state;
+    }
+    
+    PairCopulaRand(SeedState, family, rotation, theta, U, V, n);
+    
+    return;
+}
+
+void PairCopulaRand(int family, const double *theta, double *U, double *V, unsigned int n)
+{
+    // If the function is called without any seed, a random seed (using the current system time) is generated
+    unsigned int i;
+    boost::mt19937 gen;
+    gen.seed(time(0));
+    std::stringstream RNG_State;
+    RNG_State << gen;
+    
+    std::vector<unsigned int> SeedState(624);
+    double state;
+    
+    for (i=0;i<624;i++)
+    {
+        RNG_State >> state;
+        SeedState[i] = (unsigned int) state;
+    }
+    
+    PairCopulaRand(SeedState, family, theta, U, V, n);
+    
+    return;
+}
+
+
+
+void PairCopulaRand(std::vector<unsigned int>& SeedState, int family, int rotation, const double *theta, double *U, double *V, unsigned int n)
+{
     unsigned int i;
     
     boost::mt19937 gen;
     // Load the state
-    std::ifstream fi(PathSeed);
-    fi>>gen;
-    fi.close();
+    std::stringstream RNG_State_In;
+    std::copy(SeedState.begin(), SeedState.end(), std::ostream_iterator<unsigned int>(RNG_State_In, " "));
+    RNG_State_In>>gen;
     
     boost::uniform_01 <> URAND;
     
@@ -20,10 +69,15 @@ void PairCopulaRand(int family, int rotation, const double *theta, double *U, do
     }
     
     // Save the state
-    std::ofstream fo(PathSeed,
-            std::ios_base::out);
-    fo<<gen;
-    fo.close();
+    double state;
+    std::stringstream RNG_State_Out;
+    
+    RNG_State_Out << gen;
+    for (i=0;i<624;i++)
+    {
+        RNG_State_Out >> state;
+        SeedState[i] =  (unsigned int) state;
+    }
     
     switch(family){
         case 0:
@@ -51,17 +105,18 @@ void PairCopulaRand(int family, int rotation, const double *theta, double *U, do
     }
     
     return;
+    
 }
 
-void PairCopulaRand(int family, const double *theta, double *U, double *V, unsigned int n)
+void PairCopulaRand(std::vector<unsigned int>& SeedState, int family, const double *theta, double *U, double *V, unsigned int n)
 {
     unsigned int i;
     
     boost::mt19937 gen;
     // Load the state
-    std::ifstream fi(PathSeed);
-    fi>>gen;
-    fi.close();
+    std::stringstream RNG_State_In;
+    std::copy(SeedState.begin(), SeedState.end(), std::ostream_iterator<unsigned int>(RNG_State_In, " "));
+    RNG_State_In>>gen;
     
     boost::uniform_01 <> URAND;
     
@@ -74,10 +129,15 @@ void PairCopulaRand(int family, const double *theta, double *U, double *V, unsig
     }
     
     // Save the state
-    std::ofstream fo(PathSeed,
-            std::ios_base::out);
-    fo<<gen;
-    fo.close();
+    double state;
+    std::stringstream RNG_State_Out;
+    
+    RNG_State_Out << gen;
+    for (i=0;i<624;i++)
+    {
+        RNG_State_Out >> state;
+        SeedState[i] =  (unsigned int) state;
+    }
     
     switch(family){
         case 0:
@@ -95,5 +155,5 @@ void PairCopulaRand(int family, const double *theta, double *U, double *V, unsig
     }
     
     return;
+    
 }
-

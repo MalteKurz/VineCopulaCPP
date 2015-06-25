@@ -36,7 +36,7 @@
 // User written headers
 #include "VineCopulaCPP_helper.hpp"
 #include "VineCopulaCPP_PC.hpp"
-#include "VineCopulaCPP_PathToBoundsAndSeed.hpp"
+// #include "VineCopulaCPP_PathToBoundsAndSeed.hpp"
 
 
 #endif

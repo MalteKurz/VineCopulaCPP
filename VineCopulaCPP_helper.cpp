@@ -78,32 +78,185 @@ void Rotate_Obs(double *U, double *V, double *U1, double *V1,int rotation, unsig
     }
 }
 
-void LoadBounds(double *bounds)
-{
-    std::ifstream fin;
-    fin.open(PathBounds);
+void LoadDefaultBounds(double *bounds)
+{ 
     int i=0;
-    std::string b;
-    while (fin >> b) {
-        
-        if(b == "Inf")
-        {
-            bounds[i] = HUGE_VAL;
-        }
-        else
-        {
-            if (b == "-Inf")
-            {
-                bounds[i] = -HUGE_VAL;
-            }
-            else
-            {
-                bounds[i] = atof(b.c_str());
-            }
-        }
-        i++;
+    // Indep
+    int j=0;
+    bounds[j*6] = NAN; // lb1
+    bounds[j*6+1] = NAN; // ub1
+    bounds[j*6+2] = NAN; // lb2
+    bounds[j*6+3] = NAN; // ub2
+    bounds[j*6+4] = NAN; // lb3
+    bounds[j*6+5] = NAN; // ub3
+    // AMH
+    j=1;
+    bounds[j*6] = -1; // lb1
+    bounds[j*6+1] = 1; // ub1
+    for (i=2;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
     }
-    fin.close();
+    // AsymFGM
+    j=2;
+    bounds[j*6] = 0; // lb1
+    bounds[j*6+1] = 1; // ub1
+    for (i=2;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // BB1
+    j=3;
+    bounds[j*6] = 0; // lb1
+    bounds[j*6+1] = 6; // ub1
+    bounds[j*6+2] = 1; // lb2
+    bounds[j*6+3] = 6; // ub2
+    for (i=4;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // BB6
+    j=4;
+    bounds[j*6] = 1; // lb1
+    bounds[j*6+1] = 6; // ub1
+    bounds[j*6+2] = 1; // lb2
+    bounds[j*6+3] = 6; // ub2
+    for (i=4;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // BB7
+    j=5;
+    bounds[j*6] = 1; // lb1
+    bounds[j*6+1] = 6; // ub1
+    bounds[j*6+2] = 0.001; // lb2
+    bounds[j*6+3] = 6; // ub2
+    for (i=4;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // BB8
+    j=6;
+    bounds[j*6] = 1; // lb1
+    bounds[j*6+1] = 6; // ub1
+    bounds[j*6+2] = 0.001; // lb2
+    bounds[j*6+3] = 1; // ub2
+    for (i=4;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // Clayton
+    j=7;
+    bounds[j*6] = 0; // lb1
+    bounds[j*6+1] = HUGE_VAL; // ub1
+    for (i=2;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // FGM
+    j=8;
+    bounds[j*6] = -1; // lb1
+    bounds[j*6+1] = 1; // ub1
+    for (i=2;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // Frank
+    j=9;
+    bounds[j*6] = -30; // lb1
+    bounds[j*6+1] = 30; // ub1
+    for (i=2;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // Gaussian
+    j=10;
+    bounds[j*6] = -0.999; // lb1
+    bounds[j*6+1] = 0.999; // ub1
+    for (i=2;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // Gumbel
+    j=11;
+    bounds[j*6] = 1; // lb1
+    bounds[j*6+1] = HUGE_VAL; // ub1
+    for (i=2;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // IteratedFGM
+    j=12;
+    bounds[j*6] = -1; // lb1
+    bounds[j*6+1] = 1; // ub1
+    bounds[j*6+2] = -1; // lb2
+    bounds[j*6+3] = 1; // ub2
+    for (i=4;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // Joe
+    j=13;
+    bounds[j*6] = 1; // lb1
+    bounds[j*6+1] = HUGE_VAL; // ub1
+    for (i=2;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // PartialFrank
+    j=14;
+    bounds[j*6] = 0; // lb1
+    bounds[j*6+1] = 30; // ub1
+    for (i=2;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // Plackett
+    j=15;
+    bounds[j*6] = 0.001; // lb1
+    bounds[j*6+1] = HUGE_VAL; // ub1
+    for (i=2;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // Tawn1
+    j=16;
+    bounds[j*6] = 1.001; // lb1
+    bounds[j*6+1] = 20; // ub1
+    bounds[j*6+2] = 0.001; // lb2
+    bounds[j*6+3] = 0.999; // ub2
+    for (i=4;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // Tawn2
+    j=17;
+    bounds[j*6] = 1.001; // lb1
+    bounds[j*6+1] = 20; // ub1
+    bounds[j*6+2] = 0.001; // lb2
+    bounds[j*6+3] = 0.999; // ub2
+    for (i=4;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
+    // Tawn
+    j=18;
+    bounds[j*6] = 1.001; // lb1
+    bounds[j*6+1] = 20; // ub1
+    bounds[j*6+2] = 0.001; // lb2
+    bounds[j*6+3] = 0.999; // ub2
+    bounds[j*6+4] = 0.001; // lb3
+    bounds[j*6+5] = 0.999; // ub3
+    // t
+    j=19;
+    bounds[j*6] = -0.999; // lb1
+    bounds[j*6+1] = 0.999; // ub1
+    bounds[j*6+2] = 1; // lb2
+    bounds[j*6+3] = 30; // ub2
+    for (i=4;i<6;i++)
+    {
+        bounds[j*6+i] = NAN;
+    }
     
     return;
 }
