@@ -2,7 +2,16 @@
 
 void PairCopulaAIC_Rotated_Obs(double *AIC, double *theta,int family, int rotation, double *U,double *V,unsigned int n)
 {
-    PairCopulaFit_Rotated_Obs(theta,family,rotation,U,V,n);
+    std::vector<double> bounds(120);
+    LoadDefaultBounds(&bounds[0]);
+    PairCopulaAIC_Rotated_Obs(&bounds[0],AIC,theta,family,rotation,U,V,n);
+    
+    return;
+}
+
+void PairCopulaAIC_Rotated_Obs(double *bounds,double *AIC, double *theta,int family, int rotation, double *U,double *V,unsigned int n)
+{
+    PairCopulaFit_Rotated_Obs(bounds,theta,family,rotation,U,V,n);
     
     double CLL = PairCopulaNegLL_Rotated_Obs(family,rotation,theta,U,V,n);
             
@@ -30,8 +39,16 @@ void PairCopulaAIC_Rotated_Obs(double *AIC, double *theta,int family, int rotati
     return;
 }
 
-
 void PairCopulaAIC(double *AIC, double *theta,int family, int rotation, double *U,double *V,unsigned int n)
+{
+    std::vector<double> bounds(120);
+    LoadDefaultBounds(&bounds[0]);
+    PairCopulaAIC(&bounds[0],AIC,theta,family,rotation,U,V,n);
+    
+    return;
+}
+
+void PairCopulaAIC(double *bounds,double *AIC, double *theta,int family, int rotation, double *U,double *V,unsigned int n)
 {
     PairCopulaFit(theta,family,rotation,U,V,n);
     
@@ -63,7 +80,16 @@ void PairCopulaAIC(double *AIC, double *theta,int family, int rotation, double *
 
 void PairCopulaAIC(double *AIC, double *theta,int family, double *U,double *V,unsigned int n)
 {
-    PairCopulaFit(theta,family,U,V,n);
+    std::vector<double> bounds(120);
+    LoadDefaultBounds(&bounds[0]);
+    PairCopulaAIC(&bounds[0],AIC,theta,family,U,V,n);
+    
+    return;
+}
+
+void PairCopulaAIC(double *bounds, double *AIC, double *theta,int family, double *U,double *V,unsigned int n)
+{
+    PairCopulaFit(bounds,theta,family,U,V,n);
     
     double CLL = PairCopulaNegLL(family,theta,U,V,n);
             

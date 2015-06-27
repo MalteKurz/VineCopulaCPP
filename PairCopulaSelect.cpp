@@ -2,6 +2,15 @@
 
 void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, double *V, unsigned int n, double *familyset, int m)
 {
+    std::vector<double> bounds(120);
+    LoadDefaultBounds(&bounds[0]);
+    PairCopulaSelect(&bounds[0],family,theta,rotation,U,V,n,familyset,m);
+    
+    return;
+}
+    
+void PairCopulaSelect(double *bounds,int *family, double *theta, int *rotation, double *U, double *V, unsigned int n, double *familyset, int m)
+{
     // Testing for the independence copula
     double *tau, AIC0=0,AIC1=0,Tau=0;
     int j;
@@ -33,7 +42,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 8: case 9: case 10: case 15:
                         {
                             std::vector<double> Theta(1);
-                            PairCopulaAIC(&AIC1,&Theta[0],j,U,V,n);
+                            PairCopulaAIC(bounds,&AIC1,&Theta[0],j,U,V,n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -49,7 +58,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 19:
                         {
                             std::vector<double> Theta(2);
-                            PairCopulaAIC(&AIC1,&Theta[0],j,U,V,n);
+                            PairCopulaAIC(bounds,&AIC1,&Theta[0],j,U,V,n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -66,7 +75,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 18:
                         {
                             std::vector<double> Theta(3);
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],j,90,&U90[0],&V90[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],j,90,&U90[0],&V90[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -80,7 +89,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                                 }
                             }
                             
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],j,270,&U270[0],&V270[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],j,270,&U270[0],&V270[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -98,7 +107,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 3: case 4: case 5: case 6: case 12: case 16: case 17:
                         {
                             std::vector<double> Theta(2);
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],j,90,&U90[0],&V90[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],j,90,&U90[0],&V90[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -111,7 +120,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                                 }
                             }
                             
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],j,270,&U270[0],&V270[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],j,270,&U270[0],&V270[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -128,7 +137,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         default:
                         {
                             std::vector<double> Theta(1);
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],j,90,&U90[0],&V90[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],j,90,&U90[0],&V90[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -140,7 +149,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                                 }
                             }
                             
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],j,270,&U270[0],&V270[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],j,270,&U270[0],&V270[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -165,7 +174,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 8: case 9: case 10: case 15:
                         {
                             std::vector<double> Theta(1);
-                            PairCopulaAIC(&AIC1,&Theta[0],J,U,V,n);
+                            PairCopulaAIC(bounds,&AIC1,&Theta[0],J,U,V,n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -181,7 +190,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 19:
                         {
                             std::vector<double> Theta(2);
-                            PairCopulaAIC(&AIC1,&Theta[0],J,U,V,n);
+                            PairCopulaAIC(bounds,&AIC1,&Theta[0],J,U,V,n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -198,7 +207,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 18:
                         {
                             std::vector<double> Theta(3);
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],J,90,&U90[0],&V90[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],J,90,&U90[0],&V90[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -212,7 +221,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                                 }
                             }
                             
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],J,270,&U270[0],&V270[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],J,270,&U270[0],&V270[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -230,7 +239,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 3: case 4: case 5: case 6: case 12: case 16: case 17:
                         {
                             std::vector<double> Theta(2);
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],J,90,&U90[0],&V90[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],J,90,&U90[0],&V90[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -243,7 +252,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                                 }
                             }
                             
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],J,270,&U270[0],&V270[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],J,270,&U270[0],&V270[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -260,7 +269,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         default:
                         {
                             std::vector<double> Theta(1);
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],J,90,&U90[0],&V90[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],J,90,&U90[0],&V90[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -272,7 +281,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                                 }
                             }
                             
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],J,270,&U270[0],&V270[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],J,270,&U270[0],&V270[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -303,7 +312,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 8: case 9: case 10: case 15:
                         {
                             std::vector<double> Theta(1);
-                            PairCopulaAIC(&AIC1,&Theta[0],j,U,V,n);
+                            PairCopulaAIC(bounds,&AIC1,&Theta[0],j,U,V,n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -319,7 +328,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 19:
                         {
                             std::vector<double> Theta(2);
-                            PairCopulaAIC(&AIC1,&Theta[0],j,U,V,n);
+                            PairCopulaAIC(bounds,&AIC1,&Theta[0],j,U,V,n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -336,7 +345,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 18:
                         {
                             std::vector<double> Theta(3);
-                            PairCopulaAIC(&AIC1,&Theta[0],j,U,V,n);
+                            PairCopulaAIC(bounds,&AIC1,&Theta[0],j,U,V,n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -350,7 +359,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                                 }
                             }
                             
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],j,180,&U180[0],&V180[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],j,180,&U180[0],&V180[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -368,7 +377,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 3: case 4: case 5: case 6: case 12: case 16: case 17:
                         {
                             std::vector<double> Theta(2);
-                            PairCopulaAIC(&AIC1,&Theta[0],j,U,V,n);
+                            PairCopulaAIC(bounds,&AIC1,&Theta[0],j,U,V,n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -381,7 +390,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                                 }
                             }
                             
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],j,180,&U180[0],&V180[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],j,180,&U180[0],&V180[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -398,7 +407,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         default:
                         {
                             std::vector<double> Theta(1);
-                            PairCopulaAIC(&AIC1,&Theta[0],j,U,V,n);
+                            PairCopulaAIC(bounds,&AIC1,&Theta[0],j,U,V,n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -410,7 +419,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                                 }
                             }
                             
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],j,180,&U180[0],&V180[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],j,180,&U180[0],&V180[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -435,7 +444,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 8: case 9: case 10: case 15:
                         {
                             std::vector<double> Theta(1);
-                            PairCopulaAIC(&AIC1,&Theta[0],J,U,V,n);
+                            PairCopulaAIC(bounds,&AIC1,&Theta[0],J,U,V,n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -451,7 +460,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 19:
                         {
                             std::vector<double> Theta(2);
-                            PairCopulaAIC(&AIC1,&Theta[0],J,U,V,n);
+                            PairCopulaAIC(bounds,&AIC1,&Theta[0],J,U,V,n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -468,7 +477,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 18:
                         {
                             std::vector<double> Theta(3);
-                            PairCopulaAIC(&AIC1,&Theta[0],J,U,V,n);
+                            PairCopulaAIC(bounds,&AIC1,&Theta[0],J,U,V,n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -482,7 +491,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                                 }
                             }
                             
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],J,180,&U180[0],&V180[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],J,180,&U180[0],&V180[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -500,7 +509,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         case 3: case 4: case 5: case 6: case 12: case 16: case 17:
                         {
                             std::vector<double> Theta(2);
-                            PairCopulaAIC(&AIC1,&Theta[0],J,U,V,n);
+                            PairCopulaAIC(bounds,&AIC1,&Theta[0],J,U,V,n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -513,7 +522,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                                 }
                             }
                             
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],J,180,&U180[0],&V180[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],J,180,&U180[0],&V180[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -530,7 +539,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                         default:
                         {
                             std::vector<double> Theta(1);
-                            PairCopulaAIC(&AIC1,&Theta[0],J,U,V,n);
+                            PairCopulaAIC(bounds,&AIC1,&Theta[0],J,U,V,n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)
@@ -542,7 +551,7 @@ void PairCopulaSelect(int *family, double *theta, int *rotation, double *U, doub
                                 }
                             }
                             
-                            PairCopulaAIC_Rotated_Obs(&AIC1,&Theta[0],J,180,&U180[0],&V180[0],n);
+                            PairCopulaAIC_Rotated_Obs(bounds,&AIC1,&Theta[0],J,180,&U180[0],&V180[0],n);
                             #pragma omp critical(FamilyUpdate)
                             {
                                 if (AIC1<AIC0)

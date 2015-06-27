@@ -2,13 +2,40 @@
 
 void VineCopulaRand(VineCopula* Vine, double *U, unsigned int n)
 {
+    // If the function is called without any seed, a random seed (using the current system time) is generated
+    unsigned int i;
+    boost::mt19937 gen;
+    gen.seed(time(0));
+    std::stringstream RNG_State;
+    RNG_State << gen;
+    
+    std::vector<unsigned int> SeedState(624);
+    double state;
+    
+    for (i=0;i<624;i++)
+    {
+        RNG_State >> state;
+        SeedState[i] = (unsigned int) state;
+    }
+    
+    VineCopulaRand(SeedState, Vine, U, n);
+    
+    return;
+    
+}
+
+
+void VineCopulaRand(std::vector<unsigned int>& SeedState, VineCopula* Vine, double *U, unsigned int n)
+{
     int k,l,i,j;
+    
+    unsigned int iii;
     
     boost::mt19937 gen;
     // Load the state
-    std::ifstream fi(PathSeed);
-    fi>>gen;
-    fi.close();
+    std::stringstream RNG_State_In;
+    std::copy(SeedState.begin(), SeedState.end(), std::ostream_iterator<unsigned int>(RNG_State_In, " "));
+    RNG_State_In>>gen;
     
     boost::uniform_01 <> URAND;
     
@@ -28,10 +55,15 @@ void VineCopulaRand(VineCopula* Vine, double *U, unsigned int n)
     }
     
     // Save the state
-    std::ofstream fo(PathSeed,
-            std::ios_base::out);
-    fo<<gen;
-    fo.close();
+    double state;
+    std::stringstream RNG_State_Out;
+    
+    RNG_State_Out << gen;
+    for (iii=0;iii<624;iii++)
+    {
+        RNG_State_Out >> state;
+        SeedState[iii] = (unsigned int) state;
+    }
     
     
     if (Vine->Type == 0)

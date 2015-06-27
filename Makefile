@@ -42,20 +42,11 @@ FOPEN = -fopenmp
 
 # Get the list of cpp files
 CPP_SRC_FILES := $(wildcard *.cpp)
-CPP_SRC_FILES := $(filter-out SetSeed.cpp, $(CPP_SRC_FILES))
+CPP_SRC_FILES := $(CPP_SRC_FILES)
 DOT_O_FILES := $(patsubst %.cpp,%.o,$(CPP_SRC_FILES))
 
 
-all: bounds.txt VineCopulaCPP_PathToBoundsAndSeed.hpp SetSeed genz $(SharedLibName)
-
-bounds.txt:
-	cp bounds_default.txt bounds.txt
-
-VineCopulaCPP_PathToBoundsAndSeed.hpp:
-	$(ECHO) "#define PathBounds \"`$(currentdir)`/bounds.txt\" \n#define PathSeed \"`$(currentdir)`/Seed.dat\"\n"  >> VineCopulaCPP_PathToBoundsAndSeed.hpp
-
-SetSeed: SetSeed.cpp
-	${CC} ${INCLUDE_DIRS} SetSeed.cpp -o SetSeed
+all: genz $(SharedLibName)
 
 genz: mvtdstpack.o
 
@@ -77,7 +68,6 @@ libVineCopulaCPP.dll: ${DOT_O_FILES} mvtdstpack.o
 install: $(OperatingSystem)Install
 	cp VineCopulaCPP_header.hpp $(includedir)/
 	cp VineCopulaCPP_helper.hpp $(includedir)/
-	cp VineCopulaCPP_PathToBoundsAndSeed.hpp $(includedir)/
 	cp VineCopulaCPP_PC.hpp $(includedir)/
 
 LinuxInstall:
@@ -90,10 +80,8 @@ WindowsInstall:
 
 clean: $(OperatingSystem)Clean
 	rm *.o
-	rm VineCopulaCPP_PathToBoundsAndSeed.hpp
 
 LinuxClean:
-	rm SetSeed
 	rm libVineCopulaCPP.so.1.0
 
 WindowsClean:
@@ -104,7 +92,6 @@ WindowsClean:
 uninstall: $(OperatingSystem)Uninstall
 	rm $(includedir)/VineCopulaCPP_header.hpp
 	rm $(includedir)/VineCopulaCPP_helper.hpp
-	rm $(includedir)/VineCopulaCPP_PathToBoundsAndSeed.hpp
 	rm $(includedir)/VineCopulaCPP_PC.hpp
 
 LinuxUninstall:

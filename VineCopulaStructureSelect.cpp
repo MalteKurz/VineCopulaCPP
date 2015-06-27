@@ -118,7 +118,7 @@ int UpdateStructure(std::vector<int>& structure, int StructuringRule, double *U,
     return I;
 }
 
-void TreeSelect(int type, int *families, std::vector<double>& thetas, int *rotations, double *U, int d, unsigned int n, double *familyset, int m)
+void TreeSelect(double *bounds, int type, int *families, std::vector<double>& thetas, int *rotations, double *U, int d, unsigned int n, double *familyset, int m)
 {
     int i;
     
@@ -131,7 +131,7 @@ void TreeSelect(int type, int *families, std::vector<double>& thetas, int *rotat
             #pragma omp parallel for private(i)
             for (i=0;i<d-1;i++)
             {
-                PairCopulaSelect(&families[i], &theta[3*i], &rotations[i], &U[0], &U[(i+1)*n], n, familyset, m);
+                PairCopulaSelect(bounds,&families[i], &theta[3*i], &rotations[i], &U[0], &U[(i+1)*n], n, familyset, m);
             }
             break;
         }
@@ -140,7 +140,7 @@ void TreeSelect(int type, int *families, std::vector<double>& thetas, int *rotat
             #pragma omp parallel for private(i)
             for (i=0;i<d-1;i++)
             {
-                PairCopulaSelect(&families[i], &theta[3*i], &rotations[i], &U[i*n], &U[(i+1)*n], n, familyset, m);
+                PairCopulaSelect(bounds,&families[i], &theta[3*i], &rotations[i], &U[i*n], &U[(i+1)*n], n, familyset, m);
             }
         }
     }
@@ -173,7 +173,7 @@ void TreeSelect(int type, int *families, std::vector<double>& thetas, int *rotat
 }
 
 // Tree selection for higher (>2) order trees of D-Vine copulas
-void TreeSelect(int type, int *families, std::vector<double>& thetas, int *rotations, double *H, double *V, int d, unsigned int n, double *familyset, int m)
+void TreeSelect(double *bounds, int type, int *families, std::vector<double>& thetas, int *rotations, double *H, double *V, int d, unsigned int n, double *familyset, int m)
 {
     int i;
     
@@ -183,7 +183,7 @@ void TreeSelect(int type, int *families, std::vector<double>& thetas, int *rotat
     #pragma omp parallel for private(i)
     for (i=0;i<d-1;i++)
     {
-        PairCopulaSelect(&families[i], &theta[3*i], &rotations[i], &H[i*n], &V[i*n], n, familyset, m);
+        PairCopulaSelect(bounds,&families[i], &theta[3*i], &rotations[i], &H[i*n], &V[i*n], n, familyset, m);
     }
     
     for (i=0;i<d-1;i++)
@@ -266,6 +266,15 @@ void GetPseudoObs(int *families, std::vector<double>& thetas, int *rotations, do
 
 void VineCopulaStructureSelect(int type, double *Structure, double *Families, double *Rotations, std::vector<double>& Thetas, double *U, int d, unsigned int n, int StructuringRule, double *familyset, int m)
 {
+    std::vector<double> bounds(120);
+    LoadDefaultBounds(&bounds[0]);
+    VineCopulaStructureSelect(&bounds[0],type,Structure,Families,Rotations,Thetas,U,d,n,StructuringRule,familyset,m);
+    
+    return;
+}
+
+void VineCopulaStructureSelect(double *bounds, int type, double *Structure, double *Families, double *Rotations, std::vector<double>& Thetas, double *U, int d, unsigned int n, int StructuringRule, double *familyset, int m)
+{
     std::vector<int> families((d-1)*d/2);
     std::vector<int> rotations((d-1)*d/2);
     std::vector<double> thetas;
@@ -312,7 +321,7 @@ void VineCopulaStructureSelect(int type, double *Structure, double *Families, do
                         }
                     }
                     
-                    TreeSelect(type, &families[0], thetas, &rotations[0], &V[0], d, n, familyset, m);
+                    TreeSelect(bounds,type, &families[0], thetas, &rotations[0], &V[0], d, n, familyset, m);
                     
                     GetPseudoObs(&families[0], thetas, &rotations[0], &V[0], d, n);
                     
@@ -333,12 +342,12 @@ void VineCopulaStructureSelect(int type, double *Structure, double *Families, do
                             }
                         }
                         
-                        TreeSelect(type, &families[d*k-k*(k+1)/2], thetas, &rotations[d*k-k*(k+1)/2], &V[0], d-k, n, familyset, m);
+                        TreeSelect(bounds,type, &families[d*k-k*(k+1)/2], thetas, &rotations[d*k-k*(k+1)/2], &V[0], d-k, n, familyset, m);
                         
                         GetPseudoObs(&families[d*k-k*(k+1)/2], thetas, &rotations[d*k-k*(k+1)/2], &V[0], d-k, n);
                     }
                     
-                    TreeSelect(type, &families[d*(d-1)/2-1], thetas, &rotations[d*(d-1)/2-1], &V[n], 2, n, familyset, m);
+                    TreeSelect(bounds,type, &families[d*(d-1)/2-1], thetas, &rotations[d*(d-1)/2-1], &V[n], 2, n, familyset, m);
                     break;
                 }
 // case 2: Choose the most dependent variable as the root node and list the other variables by their dependence to the root node in increasing order (Nikoloulopoulos et al. 2012, p.3665)
@@ -358,19 +367,19 @@ void VineCopulaStructureSelect(int type, double *Structure, double *Families, do
                         }
                     }
                     
-                    TreeSelect(type, &families[0], thetas, &rotations[0], &V[0], d, n, familyset, m);
+                    TreeSelect(bounds,type, &families[0], thetas, &rotations[0], &V[0], d, n, familyset, m);
                     
                     GetPseudoObs(&families[0], thetas, &rotations[0], &V[0], d, n);
                     
                     
                     for (k=1;k<d-2;k++)
                     {
-                        TreeSelect(type, &families[d*k-k*(k+1)/2], thetas, &rotations[d*k-k*(k+1)/2], &V[k*n], d-k, n, familyset, m);
+                        TreeSelect(bounds,type, &families[d*k-k*(k+1)/2], thetas, &rotations[d*k-k*(k+1)/2], &V[k*n], d-k, n, familyset, m);
                         
                         GetPseudoObs(&families[d*k-k*(k+1)/2], thetas, &rotations[d*k-k*(k+1)/2], &V[k*n], d-k, n);
                     }
                     
-                    TreeSelect(type, &families[d*(d-1)/2-1], thetas, &rotations[d*(d-1)/2-1], &V[(d-2)*n], 2, n, familyset, m);
+                    TreeSelect(bounds,type, &families[d*(d-1)/2-1], thetas, &rotations[d*(d-1)/2-1], &V[(d-2)*n], 2, n, familyset, m);
                 }
             }
             
@@ -489,7 +498,7 @@ void VineCopulaStructureSelect(int type, double *Structure, double *Families, do
             std::vector<double> H((d-2)*n);
             std::vector<double> U1(n),V1(n);
             
-            TreeSelect(type, &families[0], thetas, &rotations[0], &U[0], d, n, familyset, m);
+            TreeSelect(bounds,type, &families[0], thetas, &rotations[0], &U[0], d, n, familyset, m);
             
             int J =0;
             
@@ -539,7 +548,7 @@ void VineCopulaStructureSelect(int type, double *Structure, double *Families, do
             
             for (k=1;k<d-2;k++)
             {
-                TreeSelect(type, &families[d*k-k*(k+1)/2], thetas, &rotations[d*k-k*(k+1)/2], &H[0], &V[0], d-k, n, familyset, m);
+                TreeSelect(bounds,type, &families[d*k-k*(k+1)/2], thetas, &rotations[d*k-k*(k+1)/2], &H[0], &V[0], d-k, n, familyset, m);
                 
                 for (i=0;i<d-k-1;i++)
                 {
@@ -585,7 +594,7 @@ void VineCopulaStructureSelect(int type, double *Structure, double *Families, do
                 }
             }
 
-            TreeSelect(type, &families[d*(d-1)/2-1], thetas, &rotations[d*(d-1)/2-1], &H[0], &V[0], 2, n, familyset, m);
+            TreeSelect(bounds,type, &families[d*(d-1)/2-1], thetas, &rotations[d*(d-1)/2-1], &H[0], &V[0], 2, n, familyset, m);
             
             Thetas.resize(thetas.size());
             
